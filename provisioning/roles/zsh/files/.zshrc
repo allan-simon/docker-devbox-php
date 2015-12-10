@@ -4,8 +4,6 @@ stty stop undef
 
 export WORDCHARS="*?_-[]~=/&;!#$%^(){}<>"
 
-
-export PATH=/usr/local/xsb/bin:/usr/local/flora2:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/bin:/usr/games:
 export VISUAL="vim"
 export EDITOR="vim"
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:/usr/lib
@@ -117,22 +115,6 @@ function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
-function parse_git_status {
-    noupdated=$(
-        git status --porcelain 2> /dev/null |
-        grep -E "^ (M|D)" |
-        wc -l
-    )
-    nocommitted=$(
-        git status --porcelain 2> /dev/null |
-        grep -E "^(M|A|D|R|C)" |
-        wc -l
-    )
-
-    if test $noupdated -gt 0 ; then echo -n "*"; fi
-    if test $nocommitted -gt 0 ; then echo -n "+"; fi
-}
-
 #########
 ## Prompt
 #########
@@ -155,7 +137,7 @@ cpath="%B%{$fg[$path_color]%}%20<...<%~"
 end="%{$fg[$reset_color]%}"
 
 #PROMPT="$user $end>> "
-PROMPT=$'$user $(parse_git_branch)$(parse_git_status) $end>> '
+PROMPT=$'$user $(parse_git_branch) $end>> '
 
 # prompt on the right
 RPROMPT="%(?,,%{[01m%}%{[31m%}Err %?%{[0m%})%B$end {$cpath$end}"
@@ -230,3 +212,7 @@ export HISTFILE SAVEHIST
 # so that we have access to the docker environments variable
 # from within the interactive shell
 sudo cat /etc/container_environment.sh | grep -v 'export _=' | source /dev/stdin
+
+# we put it after the source of the container envs, as it as overriden $PATH
+export PATH=/usr/local/xsb/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/bin:/usr/games:$HOME/.composer/vendor/bin
+source ~/console_completion.sh

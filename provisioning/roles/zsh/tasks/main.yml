@@ -9,3 +9,8 @@
 - name: change login shell to zsh
   sudo: yes
   user: name=vagrant shell=/usr/bin/zsh 
+
+- name: add autocompletion for symfony app/console
+  get_url:
+      url=https://raw.githubusercontent.com/jaytaph/SFConsole/master/console_completion.sh
+      dest={{ home }}/console_completion.sh

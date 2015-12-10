@@ -3,7 +3,7 @@
   sudo: true
   vars:
       home: /home/vagrant
-      document_root: /vagrant
+      APPDIR: /vagrant
   environment:
     APP_DB_NAME: "{{ DBNAME }}"
     APP_DB_USER_NAME: "{{ DBUSER }}"
@@ -17,19 +17,14 @@
        - git
        - tig
        - vim
-       - gcc
-       - gdb
-       - cgdb
        - bash-completion # Not included in the docker image
-       - make
+       - postgresql-client
+       - libzip2
        - tree
        - htop
        - man-db
 
   roles:
     - {role: zsh, sudo: false}
-    - {role: twgit, sudo: false}
-    - {role: go, sudo: false}
+    - {role: symfony, sudo: false}
     - {role: vim, sudo: false}
-#    - postgresql
-#    - {role: app, sudo: false}

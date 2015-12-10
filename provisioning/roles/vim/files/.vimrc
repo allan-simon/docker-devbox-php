@@ -29,9 +29,6 @@ highlight NobreakSpace ctermbg=red guibg=red
 match NobreakSpace / /
 
 autocmd BufRead,BufNewFile *.twig set filetype=htmljinja
-"if has("autocmd")
-"    autocmd FileType python set complete+=k~/.vim/pydiction-1.2/pydiction isk+=.,(
-"endif " has("autocmd"
 
 set tabstop=4
 set softtabstop=4
@@ -91,21 +88,11 @@ let g:clang_library_path = "/usr/lib/"
 
 colorscheme torte
 
-let g:go_fmt_command = "goimports"
+" padawan config
+let g:padawan#composer_command = "composer"
+let g:ycm_semantic_triggers = {}
+let g:ycm_semantic_triggers.php =
+\ ['->', '::', '(', 'use ', 'namespace ', '\']
 
-au FileType go nmap <Leader>ds <Plug>(go-def-split)
-au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
-au FileType go nmap <Leader>dt <Plug>(go-def-tab)
-
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-
-au FileType go nmap <Leader>gd <Plug>(go-doc)
-au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
-
-let g:syntastic_go_checkers = ['go', 'golint', 'govet']
-let g:syntastic_aggregate_errors = 1
 
 execute pathogen#infect()
