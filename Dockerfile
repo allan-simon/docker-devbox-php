@@ -9,6 +9,13 @@ ENV DEBIAN_FRONTEND noninteractive
 COPY change_user_uid.sh /
 COPY inventory_file  /etc/ansible/hosts
 
+RUN apt-get update && apt-get install -y ca-certificates curl librecode0 libsqlite3-0 libxml2 --no-install-recommends && rm -r /var/lib/apt/lists/*
+ENV GPG_KEYS 1A4E8B7277C42E53DBA9C7B9BCAA30EA9C0D5763
+RUN set -xe \
+    && for key in $GPG_KEYS; do \
+        gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+    done
+
 # Note: we chain all the command in One RUN, so that docker create only one layer
 RUN \
     # we permit sshd to be started
