@@ -2,14 +2,11 @@
 - name: setup PHP Composer
   shell: creates=/usr/local/bin/composer
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-  sudo: yes
 
 - name: setup framework installer
   shell: creates=/usr/local/bin/symfony
     curl -LsS http://symfony.com/installer -o /usr/local/bin/symfony
-  sudo: yes
 
 - name: make framework installer executable
-  file: path=/usr/local/bin/symfony mode='ugo+x'
-  sudo: yes
+  file: path=/usr/local/bin/symfony mode='a+x'
 
