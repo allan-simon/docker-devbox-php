@@ -1,5 +1,5 @@
 # Re-use the phusion baseimage adapted for 16.04 which runs an SSH server etc
-FROM sunfoxcz/baseimage
+FROM phusion/baseimage
 
 # Some definitions
 ENV SUDOFILE /etc/sudoers
@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 COPY change_user_uid.sh /
 COPY inventory_file  /etc/ansible/hosts
 
+# persistent / runtime deps
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         sudo \
@@ -16,6 +17,7 @@ RUN apt-get update && \
         librecode0 \
         libsqlite3-0 \
         libxml2 \
+        libzip2 \
         libffi-dev \
         libpython-dev \
         libssl-dev \
@@ -47,24 +49,31 @@ RUN \
     apt-get -y update && \
     apt-get -y install python python-dev python-pip aptitude
 RUN \
-    apt-get -y install libyaml-dev &&\
+    apt-get -y install libyaml-dev && \
+    pip install --upgrade setuptools --user && \
     pip install ansible && \
     # Enable password-less sudo for all user (including the 'vagrant' user) \
     chmod u+w ${SUDOFILE} && \
     echo '%sudo   ALL=(ALL:ALL) NOPASSWD: ALL' >> ${SUDOFILE} && \
     chmod u-w ${SUDOFILE} 
-# persistent / runtime deps
-RUN apt-get update && apt-get install -y ca-certificates curl librecode0 libsqlite3-0 libxml2 --no-install-recommends && rm -r /var/lib/apt/lists/*
 
-
-RUN apt-get update && \
-    apt-get install -y php7.0-cli php7.0-pgsql php7.0-curl && \
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
+    apt-get update && \
+    apt-get install -y \
+        php7.0-cli \
+        php7.0-zip \
+        php7.0-xml \
+        php7.0-pgsql \
+        php7.0-curl \
+    && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY provisioning/ /provisioning
 RUN \
+    apt-get update && \
     # run ansible
     ansible-playbook provisioning/site.yml -c local
+
 RUN \
     # clean
     apt-get clean && \
