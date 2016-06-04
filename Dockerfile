@@ -10,6 +10,7 @@ COPY inventory_file  /etc/ansible/hosts
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        sudo \
         ca-certificates \
         curl \
         librecode0 \
@@ -49,7 +50,6 @@ RUN \
     apt-get -y install libyaml-dev &&\
     pip install ansible && \
     # Enable password-less sudo for all user (including the 'vagrant' user) \
-    touch ${SUDOFILE} && \
     chmod u+w ${SUDOFILE} && \
     echo '%sudo   ALL=(ALL:ALL) NOPASSWD: ALL' >> ${SUDOFILE} && \
     chmod u-w ${SUDOFILE} 
