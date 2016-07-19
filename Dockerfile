@@ -1,4 +1,4 @@
-# Re-use the phusion baseimage adapted for 16.04 which runs an SSH server etc
+# Re-use the phusion baseimage which runs an SSH server etc
 FROM phusion/baseimage
 
 # Some definitions
@@ -43,6 +43,7 @@ RUN \
         aptitude \
     && \
     # Enable password-less sudo for all user (including the 'vagrant' user) \
+    touch ${SUDOFILE} && \
     chmod u+w ${SUDOFILE} && \
     echo '%sudo   ALL=(ALL:ALL) NOPASSWD: ALL' >> ${SUDOFILE} && \
     chmod u-w ${SUDOFILE} 
