@@ -8,22 +8,6 @@ ENV DEBIAN_FRONTEND noninteractive
 COPY change_user_uid.sh /
 COPY inventory_file  /etc/ansible/hosts
 
-# persistent / runtime deps
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        sudo \
-        ca-certificates \
-        curl \
-        librecode0 \
-        libsqlite3-0 \
-        libxml2 \
-        libzip2 \
-        libffi-dev \
-        libpython-dev \
-        libssl-dev \
-    && \
-    rm -r /var/lib/apt/lists/*
-
 # Note: we chain all the command in One RUN, so that docker create only one layer
 RUN \
     # we permit sshd to be started
@@ -47,11 +31,17 @@ RUN \
     # Install python (otherwise ansible will not work) \
     # Install aptitude, since ansible needs it (only apt-get is installed) \
     apt-get -y update && \
-    apt-get -y install python python-dev python-pip aptitude
-RUN \
-    apt-get -y install libyaml-dev && \
-    pip install --upgrade setuptools --user && \
-    pip install ansible && \
+    apt-get -y upgrade && \
+    apt-get -y install \
+        libffi-dev \
+        libyaml-dev \
+        libssl-dev \
+        libpython-dev \
+        python \
+        python-setuptools   \
+        python-pip \
+        aptitude \
+    && \
     # Enable password-less sudo for all user (including the 'vagrant' user) \
     chmod u+w ${SUDOFILE} && \
     echo '%sudo   ALL=(ALL:ALL) NOPASSWD: ALL' >> ${SUDOFILE} && \
@@ -66,11 +56,18 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
         php7.0-pgsql \
         php7.0-curl \
     && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    apt-get clean && \
+    # install ansible
+    pip install --upgrade ansible setuptools && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    # we put the 'last time apt-get update was run' file far in the past \
+    # so that ansible can then re-run apt-get update \
+    touch -t 197001010000 /var/lib/apt/periodic/update-success-stamp && \
+    # fix the tty error on vagrant \
+    sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile
 
 COPY provisioning/ /provisioning
 RUN \
-    apt-get update && \
     # run ansible
     ansible-playbook provisioning/site.yml -c local
 
