@@ -33,6 +33,7 @@ RUN \
     apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y install \
+        sudo \
         libffi-dev \
         libyaml-dev \
         libssl-dev \
@@ -43,7 +44,6 @@ RUN \
         aptitude \
     && \
     # Enable password-less sudo for all user (including the 'vagrant' user) \
-    touch ${SUDOFILE} && \
     chmod u+w ${SUDOFILE} && \
     echo '%sudo   ALL=(ALL:ALL) NOPASSWD: ALL' >> ${SUDOFILE} && \
     chmod u-w ${SUDOFILE} 
