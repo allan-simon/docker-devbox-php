@@ -69,6 +69,7 @@
   apt:
     name={{ item }} state=latest
   with_items:
+    - vim-nox-py2 # fix on base image 16.04
     - build-essential
     - cmake
     - python-dev
