@@ -81,6 +81,11 @@ alias n='uname -n'
 alias h=history
 alias JJ="cd .."
 
+alias gs="git status"
+alias gm="git checkout master"
+alias gp="git pull origin"
+alias ga="git commit --amend"
+
 #########
 # In order to not to have to type rehash each
 # time you install / update software
@@ -112,7 +117,13 @@ alias -g tcopt="--types-check --hir-compute --hir-display" ## For Tiger
 # Git stuff
 ########################
 function parse_git_branch {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+    # we get the current branch by looking to the one starting with `* ` when doing git branch
+    current_branch=$(git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+    # if the branch name is too long we keep only the 12 first characters and ... the others
+    if test "${#current_branch}" -gt 15; then
+        current_branch=$(echo $current_branch | sed -e 's/\(.\{12\}\)/\1.../')
+    fi
+    echo "$current_branch"
 }
 
 #########

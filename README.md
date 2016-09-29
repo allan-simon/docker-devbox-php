@@ -19,8 +19,17 @@
 
 ### Usage
 
-
-
 ### Extensive list of stuff installed:
 
 TODO
+
+#### ZSH
+
+##### aliases
+
+```
+alias gs="git status"
+alias gm="git checkout master"
+alias gp="git pull origin"
+alias ga="git commit --amend"
+```
