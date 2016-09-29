@@ -1,4 +1,13 @@
 ---
+- name: Fix issue with ubuntu16.04 and autochdir
+  apt_repository: repo='ppa:nginx/stable'
+
+- name: Install latest vim from Aptitude
+  apt:
+    name=vim state=latest
+    update_cache=yes
+    cache_valid_time=86400
+
 - name: copy config files in rc folder
   copy:
     src=.vimrc dest={{ home }}/.vimrc

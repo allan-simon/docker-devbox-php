@@ -13,7 +13,6 @@
       with_items:
        - git
        - tig
-       - vim
        - bash-completion # Not included in the docker image
        - postgresql-client
        - tree
