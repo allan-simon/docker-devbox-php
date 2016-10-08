@@ -49,6 +49,14 @@
     repo=https://github.com/scrooloose/syntastic.git
     dest={{ home }}/.vim/bundle/syntastic
     update=yes
+
+#
+- name: Check out vim-twig
+  git:
+    repo=https://github.com/lumiliet/vim-twig.git
+    dest={{ home }}/.vim/bundle/vim-twig
+    update=yes
+
 #
 - name: Checkout Padawan.vim
   git:

@@ -28,8 +28,6 @@ autocmd BufRead *.md syntax=markdown
 highlight NobreakSpace ctermbg=red guibg=red
 match NobreakSpace / /
 
-autocmd BufRead,BufNewFile *.twig set filetype=htmljinja
-
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
