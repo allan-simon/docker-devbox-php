@@ -92,5 +92,8 @@ let g:ycm_semantic_triggers = {}
 let g:ycm_semantic_triggers.php =
 \ ['->', '::', '(', 'use ', 'namespace ', '\']
 
+" workaround https://github.com/vim/vim/issues/704
+" which is not fixed in ubuntu
+autocmd VimEnter * set autochdir
 
 execute pathogen#infect()
