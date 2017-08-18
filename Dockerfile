@@ -51,11 +51,12 @@ RUN \
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
     apt-get update && \
     apt-get install -y \
-        php7.0-cli \
-        php7.0-zip \
-        php7.0-xml \
-        php7.0-pgsql \
-        php7.0-curl \
+        php7.1-cli \
+        php7.1-zip \
+        php7.1-xml \
+        php7.1-pgsql \
+        php7.1-curl \
+        php7.1-imagick \
     && \
     apt-get clean && \
     # install ansible

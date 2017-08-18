@@ -3,8 +3,8 @@
 ### What you will get at the end
 
    * a docker container in which you can SSH in
-   * PHP7 installed, with `composer` and `symfony`
-   * (optional) Vim: with [vim-go](https://github.com/fatih/vim-go) / tagbar / YouCompleMe etc. and my vimrc (that you can easily replace by yours)
+   * PHP7.1 installed, with `composer` and `symfony`
+   * (optional) Neovim: same as vim but better, with php autocompletion
    * (optional) Zsh: with my zshrc (that you can replace by yours
 
 ### Requirements
