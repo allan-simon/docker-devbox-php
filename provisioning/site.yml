@@ -18,6 +18,7 @@
        - tree
        - htop
        - man-db
+       - python3
 
   roles:
     - zsh
