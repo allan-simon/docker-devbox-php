@@ -27,7 +27,9 @@
 # install deoplete
 
   - name: Installing neovim pip3 package
-    command: pip3 install neovim
+    pip:
+      name: neovim
+      executable: pip3
 
 # Copy the init file
   - name: copy init files in rc folder
