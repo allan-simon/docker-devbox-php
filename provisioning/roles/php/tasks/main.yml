@@ -1,0 +1,13 @@
+---
+- name: setup PHP Composer
+  shell: creates=/usr/local/bin/composer
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+- name: install msgpack extension
+  command: pecl install msgpack
+
+- name: activate msgpack extension for php's cli
+  lineinfile:
+    path: /etc/php/7.1/cli/php.ini
+    insertbefore: ';   extension=modulename.extension'
+    line: 'extension=/usr/lib/php/20160303/msgpack.so'

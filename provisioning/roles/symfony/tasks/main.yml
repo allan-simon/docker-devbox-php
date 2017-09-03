@@ -1,8 +1,4 @@
 ---
-- name: setup PHP Composer
-  shell: creates=/usr/local/bin/composer
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 - name: setup framework installer
   shell: creates=/usr/local/bin/symfony
     curl -LsS http://symfony.com/installer -o /usr/local/bin/symfony

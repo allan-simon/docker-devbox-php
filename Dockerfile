@@ -52,6 +52,9 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
     apt-get update && \
     apt-get install -y \
         php7.1-cli \
+        php7.1-dev \
+        php7.1-common \
+        php-pear \
         php7.1-zip \
         php7.1-xml \
         php7.1-pgsql \

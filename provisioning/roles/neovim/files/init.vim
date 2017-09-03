@@ -8,7 +8,7 @@ set smarttab
 set expandtab
 set smartindent
 
-set wildmode=longest,full 
+set wildmode=longest,full
 
 set autochdir
 
@@ -17,9 +17,9 @@ set showcmd
 colorscheme torte
 
 "the status bar is always displayed
-set laststatus=2 
+set laststatus=2
 if has("statusline")
-    set statusline=%<%f%h%m%r%=%l,%c\ %P  
+    set statusline=%<%f%h%m%r%=%l,%c\ %P
 elseif has("cmdline_info")
     set ruler " display cursor position
 endif
@@ -29,7 +29,6 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 " for autocompletion
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -42,7 +41,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'benekastah/neomake'
 
 Plug 'evidens/vim-twig'
-Plug 'roxma/LanguageServer-php-neovim',  {'do': 'composer install && composer run-script parse-stubs'}
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
 " Initialize plugin system
 call plug#end()
@@ -50,18 +49,12 @@ call plug#end()
 
 " for language server
 
-set hidden
-
-" Automatically start language servers.
-let g:LanguageClient_autoStart = 1
-
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-
 " used by deoplete
+let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
+let g:deoplete#ignore_sources.php = ['omni']
 let g:deoplete#enable_at_startup = 1
 
+autocmd! BufWritePost * Neomake
 
 " to easily switch from a split containing a terminal to an other split
 " see https://medium.com/@garoth/neovim-terminal-usecases-tricks-8961e5ac19b9

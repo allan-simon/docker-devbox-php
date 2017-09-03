@@ -23,5 +23,6 @@
 
   roles:
     - zsh
+    - php
     - neovim
     - symfony
