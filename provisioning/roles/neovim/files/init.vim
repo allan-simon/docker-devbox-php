@@ -1,4 +1,6 @@
 set mouse=a
+" workaround https://github.com/neovim/neovim/issues/6041
+set guicursor=
 "
 set tabstop=4
 set softtabstop=4
