@@ -61,7 +61,7 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
         php7.1-curl \
         php7.1-imagick \
         php7.1-intl \
-        php7.1-sqlite3
+        php7.1-sqlite3 \
     && \
     apt-get clean && \
     # install ansible
