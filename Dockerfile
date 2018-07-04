@@ -46,7 +46,7 @@ RUN \
     # Enable password-less sudo for all user (including the 'vagrant' user) \
     chmod u+w ${SUDOFILE} && \
     echo '%sudo   ALL=(ALL:ALL) NOPASSWD: ALL' >> ${SUDOFILE} && \
-    chmod u-w ${SUDOFILE} 
+    chmod u-w ${SUDOFILE}
 
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
     apt-get update && \
@@ -62,6 +62,13 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
         php7.1-imagick \
         php7.1-intl \
         php7.1-sqlite3 \
+        # required for magento 2.2
+        php7.1-mcrypt \
+        php7.1-bcmath \
+        php7.1-soap \
+        php7.1-mysql \
+        php7.1-gd \
+        php7.1-mbstring \
     && \
     apt-get clean && \
     # install ansible
