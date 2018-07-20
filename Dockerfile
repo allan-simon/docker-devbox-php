@@ -83,7 +83,8 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
 COPY provisioning/ /provisioning
 RUN \
     # run ansible
-    ansible-playbook provisioning/site.yml -c local
+    ansible-playbook provisioning/site.yml -c local && \
+    chown -R vagrant /home/vagrant
 
 RUN \
     # clean
