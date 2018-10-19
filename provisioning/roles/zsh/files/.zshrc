@@ -84,7 +84,14 @@ alias JJ="cd .."
 alias gs="git status"
 alias gm="git checkout master"
 alias gp="git pull origin"
-alias ga="git commit --amend"
+alias ga="git commit --amend --no-edit"
+
+function gf {
+   # force with lease is to avoid crushing your colleague modification
+   # if he has push a commit on the branch you've rebased
+   git push --force-with-lease origin "$(git rev-parse --abbrev-ref HEAD)"
+}
+
 
 #########
 # In order to not to have to type rehash each
