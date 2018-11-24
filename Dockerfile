@@ -51,24 +51,24 @@ RUN \
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
     apt-get update && \
     apt-get install -y \
-        php7.1-cli \
-        php7.1-dev \
-        php7.1-common \
+        php7.2-cli \
+        php7.2-dev \
+        php7.2-common \
         php-pear \
-        php7.1-zip \
-        php7.1-xml \
-        php7.1-pgsql \
-        php7.1-curl \
-        php7.1-imagick \
-        php7.1-intl \
-        php7.1-sqlite3 \
+        php7.2-zip \
+        php7.2-xml \
+        php7.2-pgsql \
+        php7.2-curl \
+        php7.2-imagick \
+        php7.2-intl \
+        php7.2-sqlite3 \
         # required for magento 2.2
-        php7.1-mcrypt \
-        php7.1-bcmath \
-        php7.1-soap \
-        php7.1-mysql \
-        php7.1-gd \
-        php7.1-mbstring \
+        php7.2-mcrypt \
+        php7.2-bcmath \
+        php7.2-soap \
+        php7.2-mysql \
+        php7.2-gd \
+        php7.2-mbstring \
     && \
     apt-get clean && \
     # install ansible
