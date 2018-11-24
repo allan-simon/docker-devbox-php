@@ -51,6 +51,7 @@ RUN \
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
     apt-get update && \
     apt-get install -y \
+        unzip \
         php7.2-cli \
         php7.2-dev \
         php7.2-common \
@@ -63,7 +64,6 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
         php7.2-intl \
         php7.2-sqlite3 \
         # required for magento 2.2
-        php7.2-mcrypt \
         php7.2-bcmath \
         php7.2-soap \
         php7.2-mysql \
