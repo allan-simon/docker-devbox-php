@@ -10,4 +10,4 @@
   lineinfile:
     path: /etc/php/7.2/cli/php.ini
     insertbefore: ';   extension=modulename.extension'
-    line: 'extension=/usr/lib/php/20160303/msgpack.so'
+    line: 'extension=/usr/lib/php/20170718/msgpack.so'
