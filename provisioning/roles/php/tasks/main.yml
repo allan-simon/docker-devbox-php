@@ -8,6 +8,6 @@
 
 - name: activate msgpack extension for php's cli
   lineinfile:
-    path: /etc/php/7.2/cli/php.ini
+    path: /etc/php/7.4/cli/php.ini
     insertbefore: ';   extension=modulename.extension'
     line: 'extension=/usr/lib/php/20170718/msgpack.so'
