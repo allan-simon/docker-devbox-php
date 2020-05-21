@@ -1,6 +1,6 @@
 ---
 - name: install zsh from repo
-  apt: name=zsh state=installed
+  apt: name=zsh state=present
 
 - name: copy config files in rc folder
   copy: src=.zshrc dest={{ home }}/.zshrc
