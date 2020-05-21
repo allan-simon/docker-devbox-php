@@ -31,7 +31,7 @@ RUN \
     # Install python (otherwise ansible will not work) \
     # Install aptitude, since ansible needs it (only apt-get is installed) \
     apt-get -y update && \
-    apt-get -y upgrade && \
+    apt-get dist-upgrade -y -o Dpkg::Options::="--force-confold" && \
     apt-get -y install \
         sudo \
         libffi-dev \
