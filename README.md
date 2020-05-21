@@ -3,7 +3,7 @@
 ### What you will get at the end
 
    * a docker container in which you can SSH in
-   * PHP7.2 installed, with `composer` and `symfony`
+   * PHP7.4 installed, with `composer` and `symfony`
    * (optional) Neovim: same as vim but better, with php autocompletion
    * (optional) Zsh: with my zshrc (that you can replace by yours
 
