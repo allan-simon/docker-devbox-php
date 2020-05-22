@@ -1,5 +1,5 @@
 # Re-use the phusion baseimage which runs an SSH server etc
-FROM phusion/baseimage
+FROM phusion/baseimage:0.11
 
 # Some definitions
 ENV SUDOFILE /etc/sudoers
@@ -31,7 +31,7 @@ RUN \
     # Install python (otherwise ansible will not work) \
     # Install aptitude, since ansible needs it (only apt-get is installed) \
     apt-get -y update && \
-    apt-get dist-upgrade -y -o Dpkg::Options::="--force-confold" && \
+    apt-get dist-upgrade -y && \
     apt-get -y install \
         sudo \
         libffi-dev \
