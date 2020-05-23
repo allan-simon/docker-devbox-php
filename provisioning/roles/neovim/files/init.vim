@@ -52,8 +52,7 @@ call plug#end()
 " for language server
 
 " used by deoplete
-let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
-let g:deoplete#ignore_sources.php = ['omni']
+call deoplete#custom#option('ignore_sources', {'php': ['omni']})
 let g:deoplete#enable_at_startup = 1
 
 autocmd! BufWritePost * Neomake
