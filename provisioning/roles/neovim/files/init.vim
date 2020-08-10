@@ -43,7 +43,21 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'benekastah/neomake'
 
 Plug 'evidens/vim-twig'
-Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+Plug 'dense-analysis/ale'
+
+
+" Initialize plugin system
+call plug#end()
+
+let g:ale_linters = {'php': ['php', 'langserver', 'phpstan']}
+let g:ale_php_phpstan_executable = '/vagrant/vendor/bin/phpstan'
+let g:ale_php_phpstan_level = 4
+let g:ale_php_phpstan_configuration = '/vagrant/phpstan.neon'
+let g:ale_php_langserver_use_global = 1
+let g:ale_php_langserver_executable = $HOME.'/.composer/vendor/bin/php-language-server.php'
 
 " Initialize plugin system
 call plug#end()
@@ -78,3 +92,16 @@ endfunc
 for dir in ["h", "j", "l", "k"]
     call s:mapMoveToWindowInDirection(dir)
 endfor
+
+
+
+let $FZF_DEFAULT_COMMAND='rg --files --hidden --follow --ignore-vcs'
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>).' /vagrant', 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
+command! -bang PF call fzf#vim#files('/vagrant', <bang>0)
+nnoremap <c-p> :PF<CR>
+nnoremap <c-g> :Rg<CR>
