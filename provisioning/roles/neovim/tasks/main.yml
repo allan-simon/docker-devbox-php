@@ -63,8 +63,8 @@
 
   - name: Install ripgrep
     apt: deb="/tmp/ripgrep.deb"
-    sudo: true
+    become: yes
 
   - name: Install bat
     apt: deb="/tmp/bat.deb"
-    sudo: true
+    become: yes
