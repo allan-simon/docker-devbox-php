@@ -18,6 +18,9 @@ set showcmd
 
 colorscheme torte
 
+" permits to exit insert mode by typing with jj 
+:imap jj <Esc>
+
 "the status bar is always displayed
 set laststatus=2
 if has("statusline")
@@ -31,9 +34,6 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.local/share/nvim/plugged')
 
-" for autocompletion
-
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " for fuzzy completion
 Plug 'Shougo/denite.nvim'
 Plug 'Shougo/echodoc.vim'
@@ -41,6 +41,9 @@ Plug 'Shougo/echodoc.vim'
 Plug 'ntpeters/vim-better-whitespace'
 
 Plug 'benekastah/neomake'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'develop', 'do': 'composer install --no-dev -o'}
 
 Plug 'evidens/vim-twig'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -64,10 +67,6 @@ call plug#end()
 
 
 " for language server
-
-" used by deoplete
-call deoplete#custom#option('ignore_sources', {'php': ['omni']})
-let g:deoplete#enable_at_startup = 1
 
 autocmd! BufWritePost * Neomake
 
@@ -105,3 +104,23 @@ command! -bang -nargs=* Rg
 command! -bang PF call fzf#vim#files('/vagrant', <bang>0)
 nnoremap <c-p> :PF<CR>
 nnoremap <c-g> :Rg<CR>
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
