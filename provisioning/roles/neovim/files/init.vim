@@ -19,7 +19,8 @@ set showcmd
 colorscheme torte
 
 " permits to exit insert mode by typing with jj 
-:imap jj <Esc>
+imap jj <Esc>
+imap kk <Esc>
 
 "the status bar is always displayed
 set laststatus=2
