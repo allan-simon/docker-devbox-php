@@ -232,5 +232,6 @@ export HISTFILE SAVEHIST
 sudo cat /etc/container_environment.sh | grep -v 'export _=' | source /dev/stdin
 
 # we put it after the source of the container envs, as it as overriden $PATH
-export PATH=/usr/local/xsb/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/bin:/usr/games:$HOME/.composer/vendor/bin
+export PATH=/usr/local/xsb/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/bin:/usr/games:$HOME/.composer/vendor/bin:/home/vagrant/.local/share/nvim/plugged/phpactor/bin/source
 source ~/console_completion.sh
+
