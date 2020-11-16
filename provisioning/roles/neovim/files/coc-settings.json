@@ -1,0 +1,12 @@
+{
+    "phpactor.enable": true,
+    "phpactor.path": "/home/vagrant/.local/share/nvim/plugged/phpactor/bin/phpactor",
+    "languageserver": {
+        "phpactor": {
+            "command": "phpactor",
+            "args": ["language-server"],
+            "trace.server": "verbose",
+            "filetypes": ["php"]
+        }
+    }
+}
