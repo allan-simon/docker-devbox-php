@@ -68,3 +68,12 @@
   - name: Install bat
     apt: deb="/tmp/bat.deb"
     become: yes
+
+# copy files for Coc autocomple and phpactor
+  - name: copy init files in rc folder
+    copy:
+      src="coc-settings.json"
+      dest="/home/vagrant/.config/nvim/coc-settings.json"
+      owner="{{ username }}"
+      group="{{ username }}"
+      mode=0640
