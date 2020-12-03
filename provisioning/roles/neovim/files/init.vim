@@ -125,7 +125,7 @@ function! s:show_documentation()
   endif
 endfunction
 
-autocmd FileType php set iskeyword+=$-
+autocmd FileType php set iskeyword+=$
 autocmd FileType css set iskeyword+=-
 autocmd FileType html set iskeyword+=-
 autocmd FileType js set iskeyword+=-
