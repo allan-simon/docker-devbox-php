@@ -3,7 +3,7 @@
     "phpactor.path": "/home/vagrant/.local/share/nvim/plugged/phpactor/bin/phpactor",
     "languageserver": {
         "phpactor": {
-            "command": "phpactor",
+            "command": "/home/vagrant/.local/share/nvim/plugged/phpactor/bin/phpactor",
             "args": ["language-server"],
             "trace.server": "verbose",
             "filetypes": ["php"]
