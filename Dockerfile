@@ -69,6 +69,7 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
         php7.4-mysql \
         php7.4-gd \
         php7.4-xsl \
+        php7.4-sysvsem \
         php7.4-mbstring \
     && \
     apt-get clean && \
