@@ -52,25 +52,25 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
     apt-get update && \
     apt-get install -y \
         unzip \
-        php7.4-cli \
-        php7.4-dev \
-        php7.4-common \
+        php8.0-cli \
+        php8.0-dev \
+        php8.0-common \
         php-pear \
-        php7.4-zip \
-        php7.4-xml \
-        php7.4-pgsql \
-        php7.4-curl \
-        php7.4-imagick \
-        php7.4-intl \
-        php7.4-sqlite3 \
+        php8.0-zip \
+        php8.0-xml \
+        php8.0-pgsql \
+        php8.0-curl \
+        php8.0-imagick \
+        php8.0-intl \
+        php8.0-sqlite3 \
         # required for magento 2.2
-        php7.4-bcmath \
-        php7.4-soap \
-        php7.4-mysql \
-        php7.4-gd \
-        php7.4-xsl \
-        php7.4-sysvsem \
-        php7.4-mbstring \
+        php8.0-bcmath \
+        php8.0-soap \
+        php8.0-mysql \
+        php8.0-gd \
+        php8.0-xsl \
+        php8.0-sysvsem \
+        php8.0-mbstring \
     && \
     apt-get clean && \
     # install ansible
