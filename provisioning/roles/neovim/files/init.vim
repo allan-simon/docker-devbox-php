@@ -44,7 +44,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'benekastah/neomake'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'develop', 'do': 'composer install --no-dev -o'}
+Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
 
 Plug 'evidens/vim-twig'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
