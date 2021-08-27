@@ -21,6 +21,7 @@ colorscheme torte
 " permits to exit insert mode by typing with jj 
 imap jj <Esc>
 imap kk <Esc>
+imap hh <Esc>
 
 "the status bar is always displayed
 set laststatus=2
@@ -58,7 +59,7 @@ call plug#end()
 
 let g:ale_linters = {'php': ['php', 'langserver', 'phpstan']}
 let g:ale_php_phpstan_executable = '/vagrant/vendor/bin/phpstan'
-let g:ale_php_phpstan_level = 4
+let g:ale_php_phpstan_level = 6
 let g:ale_php_phpstan_configuration = '/vagrant/phpstan.neon'
 let g:ale_php_langserver_use_global = 1
 let g:ale_php_langserver_executable = $HOME.'/.composer/vendor/bin/php-language-server.php'
