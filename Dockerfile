@@ -1,5 +1,5 @@
 # Re-use the phusion baseimage which runs an SSH server etc
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:focal-1.1.0
 
 # Some definitions
 ENV SUDOFILE /etc/sudoers
@@ -31,18 +31,7 @@ RUN \
     # Install python (otherwise ansible will not work) \
     # Install aptitude, since ansible needs it (only apt-get is installed) \
     apt-get -y update && \
-    apt-get dist-upgrade -y && \
-    apt-get -y install \
-        sudo \
-        libffi-dev \
-        libyaml-dev \
-        libssl-dev \
-        libpython-dev \
-        python \
-        python-setuptools   \
-        python-pip \
-        aptitude \
-    && \
+    apt-get -y install sudo python3 python3-dev python3-pip aptitude&& \
     # Enable password-less sudo for all user (including the 'vagrant' user) \
     chmod u+w ${SUDOFILE} && \
     echo '%sudo   ALL=(ALL:ALL) NOPASSWD: ALL' >> ${SUDOFILE} && \
@@ -52,29 +41,27 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
     apt-get update && \
     apt-get install -y \
         unzip \
-        php8.0-cli \
-        php8.0-dev \
-        php8.0-common \
-        php-pear \
-        php8.0-zip \
-        php8.0-xml \
-        php8.0-pgsql \
-        php8.0-curl \
-        php8.0-imagick \
-        php8.0-intl \
-        php8.0-sqlite3 \
-        # required for magento 2.2
-        php8.0-bcmath \
-        php8.0-soap \
-        php8.0-mysql \
-        php8.0-gd \
-        php8.0-xsl \
-        php8.0-sysvsem \
-        php8.0-mbstring \
+        php8.1-cli \
+        php8.1-dev \
+        php8.1-common \
+        php8.1-zip \
+        php8.1-xml \
+        php8.1-pgsql \
+        php8.1-curl \
+        php8.1-imagick \
+        php8.1-intl \
+        php8.1-sqlite3 \
+        php8.1-bcmath \
+        php8.1-soap \
+        php8.1-mysql \
+        php8.1-gd \
+        php8.1-xsl \
+        php8.1-sysvsem \
+        php8.1-mbstring \
     && \
     apt-get clean && \
     # install ansible
-    pip install --upgrade ansible setuptools && \
+    pip3 install --upgrade ansible setuptools && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     # we put the 'last time apt-get update was run' file far in the past \
     # so that ansible can then re-run apt-get update \
