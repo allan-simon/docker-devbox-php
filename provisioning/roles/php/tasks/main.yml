@@ -5,9 +5,3 @@
 
 - name: install msgpack extension
   command: pecl install msgpack
-
-- name: activate msgpack extension for php's cli
-  lineinfile:
-    path: /etc/php/8.1/cli/php.ini
-    insertbefore: ';   extension=modulename.extension'
-    line: 'extension=/usr/lib/php/20200930/msgpack.so'
