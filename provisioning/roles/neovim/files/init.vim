@@ -98,10 +98,12 @@ endfor
 
 let $FZF_DEFAULT_COMMAND='rg --files --hidden --follow --ignore-vcs'
 
+# delimiter option is to avoid fzf doing fuzzy search in file names but only their content
+# see: https://github.com/junegunn/fzf.vim/issues/714#issuecomment-428802659
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>).' /vagrant', 1,
-  \   fzf#vim#with_preview(), <bang>0)
+  \   fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
 command! -bang PF call fzf#vim#files('/vagrant', <bang>0)
 nnoremap <c-p> :PF<CR>
