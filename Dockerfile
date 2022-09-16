@@ -49,6 +49,7 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
         php8.1-pgsql \
         php8.1-curl \
         php8.1-imagick \
+        php8.1-imap \
         php8.1-intl \
         php8.1-sqlite3 \
         php8.1-bcmath \
