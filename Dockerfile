@@ -1,5 +1,5 @@
 # Re-use the phusion baseimage which runs an SSH server etc
-FROM phusion/baseimage:focal-1.1.0
+FROM phusion/baseimage:jammy-1.0.0
 
 # Some definitions
 ENV SUDOFILE /etc/sudoers
@@ -8,8 +8,13 @@ ENV DEBIAN_FRONTEND noninteractive
 COPY change_user_uid.sh /
 COPY inventory_file  /etc/ansible/hosts
 
+
 # Note: we chain all the command in One RUN, so that docker create only one layer
 RUN \
+    ln -s /usr/bin/dpkg-split /usr/sbin/dpkg-split && \
+    ln -s /usr/bin/dpkg-deb /usr/sbin/dpkg-deb && \
+    ln -s /bin/rm /usr/sbin/rm && \
+    ln -s /bin/tar /usr/sbin/tar  && \
     # we permit sshd to be started
     rm -f /etc/service/sshd/down && \
     # we activate empty password with ssh (to simplify login \
@@ -22,7 +27,7 @@ RUN \
         --shell /bin/bash \
         --create-home --base-dir /home \
         --user-group \
-        --groups sudo,ssh \
+        --groups sudo \
         --password '' \
         vagrant && \
     mkdir -p /home/vagrant/.ssh && \
@@ -49,6 +54,7 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
         php8.1-pgsql \
         php8.1-curl \
         php8.1-imagick \
+        php8.1-imap \
         php8.1-intl \
         php8.1-sqlite3 \
         php8.1-bcmath \
@@ -58,10 +64,11 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
         php8.1-xsl \
         php8.1-sysvsem \
         php8.1-mbstring \
+        php8.1-xdebug \
     && \
     apt-get clean && \
     # install ansible
-    pip3 install --upgrade ansible setuptools && \
+    python3 -m pip install --upgrade ansible setuptools && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     # we put the 'last time apt-get update was run' file far in the past \
     # so that ansible can then re-run apt-get update \

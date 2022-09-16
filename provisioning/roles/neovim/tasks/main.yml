@@ -23,7 +23,7 @@
 
   - name: put nodesource repository
     apt_repository:
-      repo: "deb https://deb.nodesource.com/node_12.x {{ ansible_distribution_release }} main"
+      repo: "deb https://deb.nodesource.com/node_18.x {{ ansible_distribution_release }} main"
       state: present
 
   - name: install nodejs and npm from repo
@@ -77,7 +77,7 @@
 
 # install vim plugins
   - name: Install vim plugins
-    command: nvim '+silent!' '+PlugInstall!' '+qall!'
+    command: nvim --headless '+silent!' '+PlugInstall!' '+qall!'
     become: yes
     become_user: vagrant
 
@@ -99,11 +99,12 @@
     apt: deb="/tmp/bat.deb"
     become: yes
 
-# copy files for Coc autocomple and phpactor
-  - name: copy init files in rc folder
-    copy:
-      src="coc-settings.json"
-      dest="/home/vagrant/.config/nvim/coc-settings.json"
-      owner="{{ username }}"
-      group="{{ username }}"
-      mode=0640
+# install vscode extension to provide debugger to neovim
+  - name: Download vscode-php-debug
+    get_url:
+      url=https://codeload.github.com/xdebug/vscode-php-debug/zip/refs/heads/main
+      dest="/tmp/vscode-php-debug.zip"
+
+  - unarchive:
+      src: /tmp/vscode-php-debug.zip
+      dest: /home/vagrant
