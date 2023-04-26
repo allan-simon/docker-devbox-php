@@ -1,8 +1,7 @@
 ---
-- name: setup framework installer
-  shell: creates=/usr/local/bin/symfony
-    curl -LsS http://symfony.com/installer -o /usr/local/bin/symfony
+- name: install symfony repository
+  shell: |
+    curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
 
-- name: make framework installer executable
-  file: path=/usr/local/bin/symfony mode='a+x'
-
+- name: install symfony-cli
+  apt: name="symfony-cli"
