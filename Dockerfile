@@ -36,7 +36,7 @@ RUN \
     # Install python (otherwise ansible will not work) \
     # Install aptitude, since ansible needs it (only apt-get is installed) \
     apt-get -y update && \
-    apt-get -y install sudo python3 python3-dev python3-pip aptitude&& \
+    apt-get -y install sudo python3 python3-dev python3-pip aptitude libfaketime && \
     # Enable password-less sudo for all user (including the 'vagrant' user) \
     chmod u+w ${SUDOFILE} && \
     echo '%sudo   ALL=(ALL:ALL) NOPASSWD: ALL' >> ${SUDOFILE} && \
