@@ -1,15 +1,16 @@
-## Devbox for Symfony and PHP7 / PHP8 projects using docker
+## Devbox for Symfony and PHP8 projects using docker
 
 ### What you will get at the end
 
-   * a docker container in which you can SSH in
-   * PHP8.0 installed, with `composer` and `symfony` (PHP7 is on older tag)
-   * (optional) Neovim: same as vim but better, with php autocompletion
-   * (optional) Zsh: with my zshrc (that you can replace by yours
+* a Docker container in which you can SSH in
+* PHP8.1 installed, with `composer` and `symfony` (PHP7 is on older tag)
+* (optional) Neovim: same as vim but better, with php autocompletion
+* (optional) Zsh: with my zshrc (that you can replace by yours
 
 ### Requirements
 
-   * docker
+* Docker
+* Docker [buildx](https://github.com/docker/buildx)
 
 ### Creation
 
@@ -19,7 +20,7 @@
 
 ### Usage
 
-### Extensive list of stuff installed:
+### Extensive list of stuff installed
 
 TODO
 

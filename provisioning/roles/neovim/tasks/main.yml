@@ -1,39 +1,9 @@
 ---
-  - name: Add neovim ppa 
+  - name: Add neovim ppa
     apt_repository: repo="ppa:neovim-ppa/stable" state=present
  
   - name: Install neovim from ppa
     apt: name="neovim" state="present"
-
-# install node (for coc.vim)
-  - name: add yarn repo's key
-    apt_key:
-      url: https://dl.yarnpkg.com/debian/pubkey.gpg
-      state: present 
-
-  - name: put yarn repository
-    apt_repository:
-      repo: deb http://dl.yarnpkg.com/debian/ stable main
-      state: present
-
-  - name: add nodesource repo's key
-    apt_key:
-      url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-      state: present
-
-  - name: put nodesource repository
-    apt_repository:
-      repo: "deb https://deb.nodesource.com/node_18.x {{ ansible_distribution_release }} main"
-      state: present
-
-  - name: install nodejs and npm from repo
-    apt: 
-      name="{{ item }}"
-      state=present
-      update_cache='yes'
-    with_items:
-      - nodejs
-      - yarn
 
 # install vim-plug
 
@@ -82,22 +52,10 @@
     become_user: vagrant
 
   - name: Install ripgrep for fzf plugin
-    get_url:
-      url="https://github.com/BurntSushi/ripgrep/releases/download/12.1.1/ripgrep_12.1.1_amd64.deb"
-      dest="/tmp/ripgrep.deb"
+    apt: name="ripgrep" state="present"
 
   - name: Install bat to have color in ripgrep
-    get_url:
-      url="https://github.com/sharkdp/bat/releases/download/v0.15.4/bat_0.15.4_amd64.deb"
-      dest="/tmp/bat.deb"
-
-  - name: Install ripgrep
-    apt: deb="/tmp/ripgrep.deb"
-    become: yes
-
-  - name: Install bat
-    apt: deb="/tmp/bat.deb"
-    become: yes
+    apt: name="bat" state="present"
 
 # install vscode extension to provide debugger to neovim
   - name: Download vscode-php-debug

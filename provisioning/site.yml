@@ -2,27 +2,27 @@
 - hosts: localhost
   become: true
   vars:
-    username: "vagrant"
-    home: "/home/{{ username }}"
+    username: 'vagrant'
+    home: '/home/{{ username }}'
   pre_tasks:
     - name: Install stuff from Aptitude
-      apt:
-        name={{ item }} state=present
+      apt: name={{ item }} state=present
         update_cache=yes
         cache_valid_time=86400
       with_items:
-       - git
-       - tig
-       - bash-completion # Not included in the docker image
-       - postgresql-client
-       - tree
-       - htop
-       - man-db
-       - python3
-       - python3-pip
+        - git
+        - tig
+        - bash-completion # Not included in the docker image
+        - postgresql-client
+        - tree
+        - htop
+        - man-db
+        - python3
+        - python3-pip
 
   roles:
     - zsh
     - php
-    - neovim
     - symfony
+    - node
+    - neovim
