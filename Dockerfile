@@ -36,7 +36,21 @@ RUN \
     # Install python (otherwise ansible will not work) \
     # Install aptitude, since ansible needs it (only apt-get is installed) \
     apt-get -y update && \
-    apt-get -y install sudo python3 python3-dev python3-pip aptitude libfaketime && \
+    apt-get -y install sudo wget python3 python3-dev python3-pip aptitude libfaketime libssl-dev autoconf libtool make unzip && \
+    apt-get -y upgrade && \
+    apt remove -y curl && apt purge curl && \
+    # Install cURL version 7.88.1 as it's not compatible with the latest version
+    # of OpenSSL. See: https://stackoverflow.com/a/75867650
+    cd /tmp && rm -rf curl* && \
+    wget https://curl.haxx.se/download/curl-7.88.1.zip && \
+    unzip curl-7.88.1.zip && cd curl-7.88.1 && \
+    ./buildconf && ./configure --with-ssl && \
+    make && make install && \
+    cp /usr/local/bin/curl /usr/bin/curl && \
+    # Fix the LDD link issue: https://github.com/curl/curl/issues/4448
+    # We do this because removing the old cURL version did not remove its libraries
+    # and the new cURL version is first loading these one instead of the new ones
+    rm -rf /usr/lib/`uname -p`-linux-gnu/libcurl.so* && ldconfig && \
     # Enable password-less sudo for all user (including the 'vagrant' user) \
     chmod u+w ${SUDOFILE} && \
     echo '%sudo   ALL=(ALL:ALL) NOPASSWD: ALL' >> ${SUDOFILE} && \

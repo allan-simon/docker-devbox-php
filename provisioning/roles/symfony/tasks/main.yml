@@ -1,7 +1,3 @@
 ---
-- name: install symfony repository
-  shell: |
-    curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
-
-- name: install symfony-cli
-  apt: name="symfony-cli"
+- name: install Symfony CLI
+  shell: curl -sS https://get.symfony.com/cli/installer | bash
