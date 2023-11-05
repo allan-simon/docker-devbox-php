@@ -1,6 +1,6 @@
 ---
-  - name: Add neovim ppa
-    apt_repository: repo="ppa:neovim-ppa/stable" state=present
+  - name: Add neovim ppa 
+    apt_repository: repo="ppa:neovim-ppa/unstable" state=present
  
   - name: Install neovim from ppa
     apt: name="neovim" state="present"
@@ -62,7 +62,30 @@
     get_url:
       url=https://codeload.github.com/xdebug/vscode-php-debug/zip/refs/heads/main
       dest="/tmp/vscode-php-debug.zip"
+    become: yes
 
   - unarchive:
       src: /tmp/vscode-php-debug.zip
-      dest: /home/vagrant
+      dest: /opt
+    become: yes
+
+  - name: npm install
+    command:
+    args:
+      cmd: npm install
+      chdir: /opt/vscode-php-debug-main
+    become: yes
+
+  - name: npm run build
+    command:
+    args:
+      cmd: npm run build
+      chdir: /opt/vscode-php-debug-main
+    become: yes
+
+  - name: gives permission to read to everybody
+    command:
+    args:
+      cmd: chmod a+w -R .
+      chdir: /opt/vscode-php-debug-main
+    become: yes

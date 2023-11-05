@@ -52,7 +52,6 @@ Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 
 Plug 'phpactor/phpactor', {'for': 'php', 'branch': 'master', 'do': 'composer install --no-dev -o'}
 
@@ -64,7 +63,8 @@ Plug 'mfussenegger/nvim-dap'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'theHamsta/nvim-dap-virtual-text'
-
+Plug 'codota/tabnine-nvim', { 'do': './dl_binaries.sh' }
+Plug 'andymass/vim-matchup'
 
 
 " Initialize plugin system
@@ -129,7 +129,7 @@ local lsp_defaults = {
   flags = {
     debounce_text_changes = 150,
   },
-  capabilities = require('cmp_nvim_lsp').update_capabilities(
+  capabilities = require('cmp_nvim_lsp').default_capabilities(
     vim.lsp.protocol.make_client_capabilities()
   ),
   on_attach = function(client, bufnr)
@@ -215,7 +215,6 @@ cmp.setup({
       {name = 'path'},
       {name = 'nvim_lsp', keyword_length = 2},
       {name = 'buffer', keyword_length = 3},
-      {name = 'cmp_tabnine', keyword_length = 0 },
       {name = 'snippy' },
     },
     window = {
@@ -233,7 +232,7 @@ cmp.setup({
 
       ['<C-e>'] = cmp.mapping.abort(),
       ['<CR>'] = cmp.mapping.confirm({select = true}),
-      ['<Tab>'] = cmp.mapping(function(fallback)
+      ['<C-k>'] = cmp.mapping(function(fallback)
         local col = vim.fn.col('.') - 1
 
         if cmp.visible() then
@@ -245,7 +244,7 @@ cmp.setup({
         end
       end, {'i', 's'}),
 
-      ['<S-Tab>'] = cmp.mapping(function(fallback)
+      ['<C-j>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item(select_opts)
         else
@@ -309,11 +308,78 @@ autocmd FileType htmldjango.twig set iskeyword+=-
 
 " nvim dap
 lua <<EOF
+
+    local watch_type = require("vim._watch").FileChangeType
+
+    local function handler(res, callback)
+      if not res.files or res.is_fresh_instance then
+        return
+      end
+
+      for _, file in ipairs(res.files) do
+        local path = res.root .. "/" .. file.name
+        local change = watch_type.Changed
+        if file.new then
+          change = watch_type.Created
+        end
+        if not file.exists then
+          change = watch_type.Deleted
+        end
+        callback(path, change)
+      end
+    end
+
+    function watchman(path, opts, callback)
+      vim.system({ "watchman", "watch", path }):wait()
+
+      local buf = {}
+      local sub = vim.system({
+        "watchman",
+        "-j",
+        "--server-encoding=json",
+        "-p",
+      }, {
+        stdin = vim.json.encode({
+          "subscribe",
+          path,
+          "nvim:" .. path,
+          {
+            expression = { "anyof", { "type", "f" }, { "type", "d" } },
+            fields = { "name", "exists", "new" },
+          },
+        }),
+        stdout = function(_, data)
+          if not data then
+            return
+          end
+          for line in vim.gsplit(data, "\n", { plain = true, trimempty = true }) do
+            table.insert(buf, line)
+            if line == "}" then
+              local res = vim.json.decode(table.concat(buf))
+              handler(res, callback)
+              buf = {}
+            end
+          end
+        end,
+        text = true,
+      })
+
+      return function()
+        sub:kill("sigint")
+      end
+    end
+
+    if vim.fn.executable("watchman") == 1 then
+      require("vim.lsp._watchfiles")._watchfunc = watchman
+    end
+
+
+
     local dap = require('dap')
     dap.adapters.php = {
       type = 'executable',
       command = 'node',
-      args = { '/home/vagrant/vscode-php-debug/out/phpDebug.js' }
+      args = { '/opt/vscode-php-debug-main/out/phpDebug.js' }
     }
 
     dap.configurations.php = {
@@ -322,7 +388,11 @@ lua <<EOF
         request = 'launch',
         name = 'Listen for Xdebug',
         port = 9003,
-        host = 'localhost',
+        host = '0.0.0.0',
+--        pathMappings = { ['/vagrant'] = '/vagrant/'}
+        pathMappings = { ['/var/task'] = '/vagrant/'}
+
+
       }
     }
     require("nvim-dap-virtual-text").setup()
@@ -346,22 +416,20 @@ lua <<EOF
       sync_install = false,
       -- Automatically install missing parsers when entering buffer
       auto_install = true,
+
+      matchup = {
+        enable = true,              -- mandatory, false will disable the whole extension
+      },
     }
 
-    local tabnine = require('cmp_tabnine.config')
-
-    tabnine.setup({
-        max_lines = 1000,
-        max_num_results = 20,
-        sort = true,
-        run_on_every_keystroke = true,
-        snippet_placeholder = '..',
-        ignored_file_types = {
-            -- default is not to ignore
-            -- uncomment to ignore in lua:
-            -- lua = true
-        },
-        show_prediction_strength = true
+    require('tabnine').setup({
+      disable_auto_comment=true,
+      accept_keymap="<Tab>",
+      dismiss_keymap = "<C-]>",
+      debounce_ms = 800,
+      suggestion_color = {gui = "#808080", cterm = 244},
+      exclude_filetypes = {"TelescopePrompt", "NvimTree"},
+      log_file_path = nil, -- absolute path to Tabnine log file
     })
 EOF
 

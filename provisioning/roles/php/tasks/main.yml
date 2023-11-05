@@ -5,3 +5,14 @@
 
 - name: install msgpack extension
   command: pecl install msgpack
+
+- name: activate xdebug
+  lineinfile:
+    line: 'xdebug.mode=debug'
+    path: /etc/php/8.1/cli/conf.d/20-xdebug.ini
+
+- name: start it for all CLI invocation
+  lineinfile:
+    line: 'xdebug.start_with_request=yes'
+    path: /etc/php/8.1/cli/conf.d/20-xdebug.ini
+
