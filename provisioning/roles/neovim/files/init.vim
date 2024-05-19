@@ -37,6 +37,8 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.local/share/nvim/plugged')
 
+Plug 'nvim-neotest/nvim-nio'
+
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 Plug 'ntpeters/vim-better-whitespace'
