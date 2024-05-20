@@ -37,6 +37,9 @@ endif
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.local/share/nvim/plugged')
 
+" starting from nvim-dap-ui 4.0.0 (https://github.com/rcarriga/nvim-dap-ui/releases/tag/v4.0.0) nvim-nio must be installed separately as well
+Plug 'nvim-neotest/nvim-nio'
+
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 Plug 'ntpeters/vim-better-whitespace'
