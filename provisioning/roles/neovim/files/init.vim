@@ -65,6 +65,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'theHamsta/nvim-dap-virtual-text'
 Plug 'codota/tabnine-nvim', { 'do': './dl_binaries.sh' }
 Plug 'andymass/vim-matchup'
+Plug 'f-person/git-blame.nvim'
 
 
 " Initialize plugin system
@@ -231,7 +232,6 @@ cmp.setup({
       ['<C-f>'] = cmp.mapping.scroll_docs(4),
 
       ['<C-e>'] = cmp.mapping.abort(),
-      ['<CR>'] = cmp.mapping.confirm({select = true}),
       ['<C-k>'] = cmp.mapping(function(fallback)
         local col = vim.fn.col('.') - 1
 
@@ -309,70 +309,74 @@ autocmd FileType htmldjango.twig set iskeyword+=-
 " nvim dap
 lua <<EOF
 
-    local watch_type = require("vim._watch").FileChangeType
+    local FSWATCH_EVENTS = {
+      Created = 1,
+      Updated = 2,
+      Removed = 3,
+      -- Renamed
+      OwnerModified = 2,
+      AttributeModified = 2,
+      MovedFrom = 1,
+      MovedTo = 3
+      -- IsFile
+      -- IsDir
+      -- IsSymLink
+      -- Link
+      -- Overflow
+    }
 
-    local function handler(res, callback)
-      if not res.files or res.is_fresh_instance then
+    --- @param data string
+    --- @param opts table
+    --- @param callback fun(path: string, event: integer)
+    local function fswatch_output_handler(data, opts, callback)
+      local d = vim.split(data, '%s+')
+      local cpath = d[1]
+
+      for i = 2, #d do
+        if d[i] == 'IsDir' or d[i] == 'IsSymLink' or d[i] == 'PlatformSpecific' then
+          return
+        end
+      end
+
+      if opts.include_pattern and opts.include_pattern:match(cpath) == nil then
         return
       end
 
-      for _, file in ipairs(res.files) do
-        local path = res.root .. "/" .. file.name
-        local change = watch_type.Changed
-        if file.new then
-          change = watch_type.Created
+      if opts.exclude_pattern and opts.exclude_pattern:match(cpath) ~= nil then
+        return
+      end
+
+      for i = 2, #d do
+        local e = FSWATCH_EVENTS[d[i]]
+        if e then
+          callback(cpath, e)
         end
-        if not file.exists then
-          change = watch_type.Deleted
-        end
-        callback(path, change)
       end
     end
 
-    function watchman(path, opts, callback)
-      vim.system({ "watchman", "watch", path }):wait()
-
-      local buf = {}
-      local sub = vim.system({
-        "watchman",
-        "-j",
-        "--server-encoding=json",
-        "-p",
+    local function fswatch(path, opts, callback)
+      local obj = vim.system({
+        'fswatch',
+        '--recursive',
+        '--event-flags',
+        '--exclude', '/.git/',
+        path
       }, {
-        stdin = vim.json.encode({
-          "subscribe",
-          path,
-          "nvim:" .. path,
-          {
-            expression = { "anyof", { "type", "f" }, { "type", "d" } },
-            fields = { "name", "exists", "new" },
-          },
-        }),
         stdout = function(_, data)
-          if not data then
-            return
+          for line in vim.gsplit(data, '\n', { plain = true, trimempty = true }) do
+            fswatch_output_handler(line, opts, callback)
           end
-          for line in vim.gsplit(data, "\n", { plain = true, trimempty = true }) do
-            table.insert(buf, line)
-            if line == "}" then
-              local res = vim.json.decode(table.concat(buf))
-              handler(res, callback)
-              buf = {}
-            end
-          end
-        end,
-        text = true,
+        end
       })
 
       return function()
-        sub:kill("sigint")
+        obj:kill(2)
       end
     end
 
-    if vim.fn.executable("watchman") == 1 then
-      require("vim.lsp._watchfiles")._watchfunc = watchman
+    if vim.fn.executable('fswatch') == 1 then
+      require('vim.lsp._watchfiles')._watchfunc = fswatch
     end
-
 
 
     local dap = require('dap')
@@ -432,6 +436,8 @@ lua <<EOF
       log_file_path = nil, -- absolute path to Tabnine log file
     })
 EOF
+
+let g:matchup_matchparen_offscreen = {'method': 'popup'}
 
 nnoremap <silent> <F5> :lua require('dap').toggle_breakpoint()<CR>
 nnoremap <silent> <F9> :lua require('dap').continue()<CR>

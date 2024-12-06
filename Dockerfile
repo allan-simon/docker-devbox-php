@@ -1,5 +1,5 @@
 # Re-use the phusion baseimage which runs an SSH server etc
-FROM phusion/baseimage:jammy-1.0.0
+FROM phusion/baseimage:noble-1.0.0
 
 # Some definitions
 ENV SUDOFILE /etc/sudoers
@@ -60,29 +60,29 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
     apt-get update && \
     apt-get install -y \
         unzip \
-        php8.1-cli \
-        php8.1-dev \
-        php8.1-common \
-        php8.1-zip \
-        php8.1-xml \
-        php8.1-pgsql \
-        php8.1-curl \
-        php8.1-imagick \
-        php8.1-imap \
-        php8.1-intl \
-        php8.1-sqlite3 \
-        php8.1-bcmath \
-        php8.1-soap \
-        php8.1-mysql \
-        php8.1-gd \
-        php8.1-xsl \
-        php8.1-sysvsem \
-        php8.1-mbstring \
-        php8.1-xdebug \
+        ansible \
+        php8.3-cli \
+        php8.3-dev \
+        php8.3-common \
+        php8.3-zip \
+        php8.3-xml \
+        php8.3-pgsql \
+        php8.3-curl \
+        php8.3-imagick \
+        php8.3-imap \
+        php8.3-pcov \
+        php8.3-intl \
+        php8.3-sqlite3 \
+        php8.3-bcmath \
+        php8.3-soap \
+        php8.3-mysql \
+        php8.3-gd \
+        php8.3-xsl \
+        php8.3-sysvsem \
+        php8.3-mbstring \
+        php8.3-xdebug \
     && \
     apt-get clean && \
-    # install ansible
-    python3 -m pip install --upgrade ansible setuptools && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     # we put the 'last time apt-get update was run' file far in the past \
     # so that ansible can then re-run apt-get update \

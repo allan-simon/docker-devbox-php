@@ -17,11 +17,8 @@ if ! groups | grep '\bdocker\b' --only-matching &>/dev/null ; then
 fi
 
 
-docker buildx use builder || docker buildx create --name builder --bootstrap --use
-
-docker buildx build \
+docker build \
     --push \
     --rm \
-    --platform linux/arm64/v8,linux/amd64 \
     --tag allansimon/docker-devbox-php \
     .

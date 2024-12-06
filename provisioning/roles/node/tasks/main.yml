@@ -11,12 +11,12 @@
 
 - name: add nodesource repo's key
   apt_key:
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    url: https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key
     state: present
 
 - name: put nodesource repository
   apt_repository:
-    repo: 'deb https://deb.nodesource.com/node_18.x {{ ansible_distribution_release }} main'
+    repo: 'deb https://deb.nodesource.com/node_20.x nodistro main'
     state: present
 
 - name: install nodejs and npm from repo

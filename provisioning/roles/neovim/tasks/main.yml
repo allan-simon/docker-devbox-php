@@ -24,18 +24,6 @@
     become: yes
     become_user: vagrant
 
-# install deoplete
-
-  - name: Installing neovim pip3 package
-    pip:
-      name: neovim
-      executable: pip3
-
-  - name: Installing pynvim pip3 package
-    pip:
-      name: pynvim
-      executable: pip3
-
 # Copy the init file
   - name: copy init files in rc folder
     copy:
@@ -56,6 +44,9 @@
 
   - name: Install bat to have color in ripgrep
     apt: name="bat" state="present"
+
+  - name: Install fswatch to workaround neovim issues 23291
+    apt: name="fswatch" state="present"
 
 # install vscode extension to provide debugger to neovim
   - name: Download vscode-php-debug
