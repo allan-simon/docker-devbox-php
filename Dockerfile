@@ -21,6 +21,8 @@ RUN \
     # as it's only a dev machine, it will never be used in production (right?) \
     echo 'PermitEmptyPasswords yes' >> /etc/ssh/sshd_config && \
     echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config && \
+    # we remove the ubuntu user
+    userdel ubuntu && \
     # we create a user vagrant (so that Vagrant will be happy)
     # without password
     useradd \

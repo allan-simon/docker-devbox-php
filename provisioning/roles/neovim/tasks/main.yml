@@ -5,6 +5,17 @@
   - name: Install neovim from ppa
     apt: name="neovim" state="present"
 
+  - name: Set up alternatives for Neovim
+    ansible.builtin.alternatives:
+      name: "{{ item.name }}"
+      path: /bin/nvim
+      link: "/usr/bin/{{ item.name }}"
+      priority: 100
+    become: true
+    loop:
+      - name: vi
+      - name: vim
+  
 # install vim-plug
 
   - name: Make "{{ neovim_config_dir }}/autoload" directory

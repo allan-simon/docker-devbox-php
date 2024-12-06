@@ -60,6 +60,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 Plug 'mfussenegger/nvim-dap'
+Plug 'nvim-neotest/nvim-nio'
 Plug 'rcarriga/nvim-dap-ui'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'theHamsta/nvim-dap-virtual-text'
