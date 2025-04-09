@@ -9,10 +9,10 @@
 - name: activate xdebug
   lineinfile:
     line: 'xdebug.mode=debug'
-    path: /etc/php/8.3/cli/conf.d/20-xdebug.ini
+    path: /etc/php/8.4/cli/conf.d/20-xdebug.ini
 
 - name: start it for all CLI invocation
   lineinfile:
     line: 'xdebug.start_with_request=yes'
-    path: /etc/php/8.3/cli/conf.d/20-xdebug.ini
+    path: /etc/php/8.4/cli/conf.d/20-xdebug.ini
 

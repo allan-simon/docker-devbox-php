@@ -38,8 +38,8 @@
 # Copy the init file
   - name: copy init files in rc folder
     copy:
-      src="init.vim"
-      dest="{{ neovim_config_dir }}/init.vim"
+      src="init.lua"
+      dest="{{ neovim_config_dir }}/init.lua"
       owner="{{ username }}"
       group="{{ username }}"
       mode=0640
