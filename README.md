@@ -15,7 +15,7 @@
 ### Creation
 
 ```bash
-./create_docker.sh
+docker build   --push  --tag   allansimon/docker-devbox-php:8.4 .
 ```
 
 ### Usage

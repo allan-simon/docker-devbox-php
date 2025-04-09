@@ -63,26 +63,26 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y && \
     apt-get install -y \
         unzip \
         ansible \
-        php8.3-cli \
-        php8.3-dev \
-        php8.3-common \
-        php8.3-zip \
-        php8.3-xml \
-        php8.3-pgsql \
-        php8.3-curl \
-        php8.3-imagick \
-        php8.3-imap \
-        php8.3-pcov \
-        php8.3-intl \
-        php8.3-sqlite3 \
-        php8.3-bcmath \
-        php8.3-soap \
-        php8.3-mysql \
-        php8.3-gd \
-        php8.3-xsl \
-        php8.3-sysvsem \
-        php8.3-mbstring \
-        php8.3-xdebug \
+        php8.4-cli \
+        php8.4-dev \
+        php8.4-common \
+        php8.4-zip \
+        php8.4-xml \
+        php8.4-pgsql \
+        php8.4-curl \
+        php8.4-imagick \
+        php8.4-imap \
+        php8.4-pcov \
+        php8.4-intl \
+        php8.4-sqlite3 \
+        php8.4-bcmath \
+        php8.4-soap \
+        php8.4-mysql \
+        php8.4-gd \
+        php8.4-xsl \
+        php8.4-sysvsem \
+        php8.4-mbstring \
+        php8.4-xdebug \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
